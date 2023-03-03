@@ -34,10 +34,16 @@ const Login = () => {
           <div className="max-w-md">
             <h1 className="mb-5 text-5xl font-bold">Hello there</h1>
             <p className="mb-5">
-              Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-              excepturi exercitationem quasi. In deleniti eaque aut repudiandae
-              et a id nisi.
+              Login to this World Chat and chat endlessly with every one.
+              <strong>
+                (Use of Inappropriate or Spam random stuff will impose immediate
+                ban and keep in mind you cannot delete anything from your
+                end.🙂)
+              </strong>
+              <br />
+              <strong>Happy Chatting😁</strong>
             </p>
+
             <button
               onClick={handleLogin}
               className="btn  bg-neutral text-neutral-content"
