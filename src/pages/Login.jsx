@@ -1,6 +1,9 @@
 import React from "react";
+import { UserAuth } from "../context/AuthContext";
 
 const Login = () => {
+  const { currentUser } = UserAuth();
+  console.log(currentUser);
   return (
     <>
       <div
