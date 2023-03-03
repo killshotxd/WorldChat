@@ -1,6 +1,6 @@
 import React from "react";
 import Login from "./pages/Login";
-import Navbar from "./pages/components/Navbar";
+import Navbar from "./components/Navbar";
 import ChatRoom from "./pages/ChatRoom";
 import { Route, Routes } from "react-router-dom";
 import { PrivateRoute } from "./routes/PrivateRoute";
