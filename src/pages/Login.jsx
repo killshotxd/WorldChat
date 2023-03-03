@@ -1,9 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { UserAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { currentUser } = UserAuth();
+  const navigate = useNavigate();
+  const { currentUser, signInGoogle } = UserAuth();
   console.log(currentUser);
+
+  const handleLogin = async () => {
+    try {
+      await signInGoogle();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/chat");
+    } else return;
+  }, [currentUser]);
+
   return (
     <>
       <div
@@ -21,7 +38,10 @@ const Login = () => {
               excepturi exercitationem quasi. In deleniti eaque aut repudiandae
               et a id nisi.
             </p>
-            <button className="btn  bg-neutral text-neutral-content">
+            <button
+              onClick={handleLogin}
+              className="btn  bg-neutral text-neutral-content"
+            >
               {" "}
               LOGIN WITH GOOGLE
             </button>
