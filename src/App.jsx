@@ -2,13 +2,24 @@ import React from "react";
 import Login from "./pages/Login";
 import Navbar from "./pages/components/Navbar";
 import ChatRoom from "./pages/ChatRoom";
+import { Route, Routes } from "react-router-dom";
+import { PrivateRoute } from "./routes/PrivateRoute";
 
 const App = () => {
   return (
     <>
       <Navbar />
-      {/* <Login /> */}
-      <ChatRoom />
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route
+          path="/chat"
+          element={
+            <PrivateRoute>
+              <ChatRoom />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
     </>
   );
 };
