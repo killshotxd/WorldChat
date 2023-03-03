@@ -1,12 +1,19 @@
 import React from "react";
+import { UserAuth } from "../context/AuthContext";
 
 const Message = ({ msg }) => {
+  const { currentUser } = UserAuth();
+
   return (
     <div>
-      <div className="chat chat-start">
+      <div
+        className={`chat ${
+          msg.uid === currentUser.uid ? "chat-end" : "chat-start"
+        }`}
+      >
         <div className="chat-image avatar">
           <div className="w-10 rounded-full">
-            <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+            <img src={msg.avatar} />
           </div>
         </div>
         <div className="chat-header">
