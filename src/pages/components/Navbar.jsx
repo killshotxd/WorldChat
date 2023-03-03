@@ -2,12 +2,13 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <>
-      <div className="navbar bg-neutral text-neutral-content">
+    <div className="navbar bg-neutral text-neutral-content">
+      <div className="containerWrap ">
         <div className="flex-1">
           <a className="btn btn-ghost normal-case text-xl">WorldChat</a>
         </div>
-        <div className="flex-none">
+        <div className="flex align-middle gap-2">
+          <button>Logout</button>
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
@@ -34,7 +35,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

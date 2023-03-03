@@ -1,7 +1,14 @@
 import React from "react";
+import ChatBox from "./components/ChatBox";
+import SendMsg from "./components/SendMsg";
 
 const ChatRoom = () => {
-  return <div>ChatRoom</div>;
+  return (
+    <>
+      <ChatBox />
+      <SendMsg />
+    </>
+  );
 };
 
 export default ChatRoom;
