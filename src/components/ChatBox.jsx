@@ -30,12 +30,11 @@ const ChatBox = () => {
       q = query(
         collection(db, "privateRooms", `${privateRoom}/messages`),
 
-        orderBy("createdAt"),
-        limit(50)
+        orderBy("createdAt")
       );
     } else {
       // Otherwise, it's the world chat
-      q = query(collection(db, "messages"), orderBy("createdAt"), limit(50));
+      q = query(collection(db, "messages"), orderBy("createdAt"));
     }
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const messages = [];
