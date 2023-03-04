@@ -1,7 +1,7 @@
 import React from "react";
 import { UserAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-
+import meet from "../assets/meetme.png";
 const Navbar = () => {
   const { currentUser, logout } = UserAuth();
   const navigate = useNavigate();
@@ -23,7 +23,9 @@ const Navbar = () => {
               navigate("/room");
             }}
           >
-            WorldChat
+            <span>
+              <img style={{ width: "3rem" }} src={meet} /> WorldChat
+            </span>
           </a>
         </div>
         {currentUser ? (

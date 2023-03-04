@@ -3,6 +3,7 @@ import { UserAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { collection, doc, addDoc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../Firebase";
+import meet from "../assets/meetme.png";
 const RoomCreate = () => {
   const navigate = useNavigate();
   const { currentUser } = UserAuth();
@@ -27,9 +28,10 @@ const RoomCreate = () => {
       }
       const { uid } = currentUser;
       await addDoc(collection(db, "privateRooms", roomName, "messages"), {
-        text: `Welcome to ${roomName} room!`,
+        text: `Welcome to ${roomName}!`,
         name: "ChatBot",
-        avatar: "../assets/meetme.png",
+        avatar:
+          "https://github.com/killshotxd/WorldChat/blob/main/src/assets/meetme.png?raw=true",
         createdAt: new Date(),
         uid: "ChatBot",
       });

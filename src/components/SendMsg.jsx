@@ -42,7 +42,7 @@ const SendMsg = () => {
     setValue("");
   };
   return (
-    <div className="bg-gray-200 fixed bottom-0 w-full py-10 shadow-lg">
+    <div className="bg-gray-200 pb-5 w-full py-5 shadow-lg">
       <form onSubmit={handleSendMsg} className="px-2 containerWrap flex ">
         <input
           className="input w-full focus:outline-none bg-gray-100 rounded-r-none"
