@@ -23,6 +23,8 @@ const SendMsg = () => {
         avatar: photoURL,
         createdAt: serverTimestamp(),
         uid,
+        seenBy: [uid],
+        status: "Delivered",
       };
 
       if (privateRoom) {

@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { collection, doc, addDoc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../Firebase";
 import meet from "../assets/meetme.png";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const RoomCreate = () => {
   const navigate = useNavigate();
   const { currentUser } = UserAuth();
@@ -13,7 +15,16 @@ const RoomCreate = () => {
   const handleCreateRoom = async (e) => {
     e.preventDefault();
     if (roomName.trim() === "") {
-      alert("Enter a valid Room Name!");
+      toast("👎🏻 Enter Valid Room Name", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       return;
     }
     try {
@@ -22,7 +33,18 @@ const RoomCreate = () => {
       );
       if (existingRoom.exists()) {
         console.log("This room name is already taken!");
+        toast("😉 Room Already Exists", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         navigate(`../privateRoom/private/${roomName}`, { replace: true });
+
         // handle accordingly, maybe show an error message to the user
         return;
       }
@@ -40,6 +62,16 @@ const RoomCreate = () => {
         createdBy: uid,
         createdAt: new Date(),
       });
+      toast("🔥 New private room is created !", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       navigate(`../privateRoom/private/${roomName}`, { replace: true });
     } catch (error) {
       console.log(error);
@@ -48,6 +80,7 @@ const RoomCreate = () => {
 
   return (
     <div className="hero min-h-screen bg-base-200">
+      <ToastContainer />
       <div className="containerWrap">
         <div className="hero-content text-center">
           <div className=" max-w-lg ">
