@@ -11,6 +11,7 @@ import {
   limit,
   updateDoc,
   arrayUnion,
+  getDoc,
 } from "firebase/firestore";
 import { db } from "../Firebase";
 import { useParams } from "react-router-dom";
@@ -21,7 +22,7 @@ const ChatBox = () => {
   const [messages, setMessages] = useState([]);
   const { privateRoom } = useParams();
   const { currentUser } = UserAuth();
-
+  const [receiverData, setReceiverData] = useState(null);
   const scrollToBottom = () => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   };
@@ -65,11 +66,25 @@ const ChatBox = () => {
         status: "Seen",
       });
     }
+
+    const receiverId = msg?.seenBy?.find((uid) => uid !== currentUser.uid);
+    if (receiverId) {
+      const receiverRef = doc(db, "users", receiverId);
+      const receiverSnapshot = await getDoc(receiverRef);
+      setReceiverData(receiverSnapshot.data());
+    }
   };
   return (
     <div className="pb-44 pt-20 containerWrap">
-      {messages.map((msg) => (
-        <Message key={msg.id} msg={msg} onReadReceipt={handleReadReceipt} />
+      {messages.map((msg, index) => (
+        <Message
+          key={msg.id}
+          msg={msg}
+          onReadReceipt={handleReadReceipt}
+          receiverData={receiverData}
+          index={index}
+          lastIndex={messages.length - 1}
+        />
       ))}
       <div ref={messagesEndRef}></div>
     </div>

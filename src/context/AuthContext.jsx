@@ -5,7 +5,8 @@ import {
   signOut,
 } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
-import { auth } from "../Firebase";
+import { auth, db } from "../Firebase";
+import { doc, setDoc } from "firebase/firestore";
 // create context
 const AuthContext = createContext();
 
@@ -15,9 +16,19 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   // Sign In
-  const signInGoogle = () => {
+  const signInGoogle = async () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider);
+    const { user } = await signInWithPopup(auth, provider);
+
+    // Add user data to the database
+    const userRef = doc(db, "users", user.uid);
+    const userData = {
+      name: user.displayName,
+      email: user.email,
+      avatar: user.photoURL,
+      uid: user.uid,
+    };
+    await setDoc(userRef, userData, { merge: true });
   };
 
   // Sign Out

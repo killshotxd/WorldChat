@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { UserAuth } from "../context/AuthContext";
 
 import moment from "moment";
-const Message = ({ msg, onReadReceipt }) => {
+const Message = ({ msg, onReadReceipt, receiverData, index, lastIndex }) => {
   const timestamp = moment(msg?.createdAt?.toDate());
   const relativeTime = timestamp?.fromNow();
 
@@ -41,7 +41,16 @@ const Message = ({ msg, onReadReceipt }) => {
           <time className="text-xs opacity-50">{relativeTime}</time>
         </div>
         <div className="chat-bubble">{msg.text}</div>
-        <div className="chat-footer opacity-50">{status}</div>
+        {index === lastIndex && (
+          <div className="chat-footer flex items-center gap-1 ">
+            <div className="opacity-50">{status}</div>
+            {msg.uid == currentUser.uid && status === "Seen" && (
+              <div className="w-4 rounded-full">
+                <img className="rounded-full" src={receiverData?.avatar} />
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
