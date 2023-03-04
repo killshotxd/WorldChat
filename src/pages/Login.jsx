@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const navigate = useNavigate();
   const { currentUser, signInGoogle } = UserAuth();
-  console.log(currentUser);
 
   const handleLogin = async () => {
     try {
@@ -17,7 +16,7 @@ const Login = () => {
 
   useEffect(() => {
     if (currentUser) {
-      navigate("/chat");
+      navigate("/room");
     } else return;
   }, [currentUser]);
 

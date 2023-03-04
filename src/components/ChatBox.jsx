@@ -11,9 +11,11 @@ import {
   limit,
 } from "firebase/firestore";
 import { db } from "../Firebase";
+import { useParams } from "react-router-dom";
 const ChatBox = () => {
   const messagesEndRef = useRef();
   const [messages, setMessages] = useState([]);
+  const { privateRoom } = useParams();
 
   const scrollToBottom = () => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -22,11 +24,19 @@ const ChatBox = () => {
   useEffect(scrollToBottom, [messages]);
 
   useEffect(() => {
-    const q = query(
-      collection(db, "messages"),
-      orderBy("createdAt"),
-      limit(50)
-    );
+    let q;
+    if (privateRoom && privateRoom !== "chat") {
+      // If the room name is in the route params, it's a private room
+      q = query(
+        collection(db, "privateRooms", `${privateRoom}/messages`),
+
+        orderBy("createdAt"),
+        limit(50)
+      );
+    } else {
+      // Otherwise, it's the world chat
+      q = query(collection(db, "messages"), orderBy("createdAt"), limit(50));
+    }
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const messages = [];
       querySnapshot.forEach((doc) => {
@@ -36,7 +46,8 @@ const ChatBox = () => {
     });
 
     return () => unsubscribe;
-  }, []);
+  }, [privateRoom]);
+
   return (
     <div className="pb-44 pt-20 containerWrap">
       {messages.map((msg) => (

@@ -3,9 +3,9 @@ import { UserAuth } from "../context/AuthContext";
 
 import moment from "moment";
 const Message = ({ msg }) => {
-  const timestamp = moment(msg.createdAt.toDate());
-  const relativeTime = timestamp.fromNow();
-  console.log(relativeTime);
+  const timestamp = moment(msg?.createdAt?.toDate());
+  const relativeTime = timestamp?.fromNow();
+
   const { currentUser } = UserAuth();
 
   return (

@@ -1,12 +1,14 @@
 import React from "react";
 import { UserAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const { currentUser, logout } = UserAuth();
-
+  const navigate = useNavigate();
   const handleLogout = async () => {
     try {
       await logout();
+      navigate("/");
     } catch (error) {
       console.error();
     }
@@ -15,7 +17,14 @@ const Navbar = () => {
     <div className="navbar bg-neutral text-neutral-content">
       <div className="containerWrap ">
         <div className="flex-1">
-          <a className="btn btn-ghost normal-case text-xl">WorldChat</a>
+          <a
+            className="btn btn-ghost normal-case text-xl"
+            onClick={() => {
+              navigate("/room");
+            }}
+          >
+            WorldChat
+          </a>
         </div>
         {currentUser ? (
           <div className="flex-none">

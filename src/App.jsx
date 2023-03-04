@@ -5,6 +5,8 @@ import ChatRoom from "./pages/ChatRoom";
 import { Route, Routes } from "react-router-dom";
 import { PrivateRoute } from "./routes/PrivateRoute";
 import { AuthProvider } from "./context/AuthContext";
+import RoomCreate from "./pages/RoomCreate";
+import Private from "./pages/Private";
 
 const App = () => {
   return (
@@ -13,10 +15,27 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route
+          path="/room"
+          element={
+            <PrivateRoute>
+              <RoomCreate />
+            </PrivateRoute>
+          }
+        />
+        <Route
           path="/chat"
           element={
             <PrivateRoute>
               <ChatRoom />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/privateRoom/private/:privateRoom"
+          element={
+            <PrivateRoute>
+              <Private />
             </PrivateRoute>
           }
         />
