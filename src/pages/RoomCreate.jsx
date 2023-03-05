@@ -94,14 +94,14 @@ const RoomCreate = () => {
             </p>
             <div className="flex flex-col  gap-3 max-w-sm content-center m-auto items-center">
               <button
-                className="btn btn-primary"
+                className="btn btn-secondary"
                 onClick={() => {
                   navigate("/chat");
                 }}
               >
                 World Chat
               </button>
-              <a href="#my-modal-2" className="btn btn-primary">
+              <a href="#my-modal-2" className="btn btn-secondary">
                 Private Room
               </a>
               {/* Put this part before </body> tag */}
