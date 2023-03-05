@@ -8,6 +8,7 @@ import { AuthProvider } from "./context/AuthContext";
 import RoomCreate from "./pages/RoomCreate";
 import Private from "./pages/Private";
 import Footer from "./components/Footer";
+import Profile from "./pages/Profile";
 
 const App = () => {
   return (
@@ -20,6 +21,14 @@ const App = () => {
           element={
             <PrivateRoute>
               <RoomCreate />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <Profile />
             </PrivateRoute>
           }
         />
