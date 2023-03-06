@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "crypto-js": "^4.1.1",
     "daisyui": "^2.51.3",
     "firebase": "^9.17.2",
     "lodash": "^4.17.21",

@@ -11,20 +11,47 @@ const RoomCreate = () => {
   const { currentUser } = UserAuth();
 
   const [roomName, setRoomName] = useState("");
-
+  const [uniqueName, setUniqueName] = useState("");
   const handleCreateRoom = async (e) => {
     e.preventDefault();
+
     if (roomName.trim() === "") {
-      toast("👎🏻 Enter Valid Room Name", {
+      const length = 5;
+      const characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      let newRoomName = "";
+      for (let i = 0; i < length; i++) {
+        newRoomName += characters.charAt(
+          Math.floor(Math.random() * characters.length)
+        );
+      }
+      setUniqueName(newRoomName);
+
+      const { uid } = currentUser;
+      await addDoc(collection(db, "privateRooms", uniqueName, "messages"), {
+        text: `Welcome to ${uniqueName}!`,
+        name: "ChatBot",
+        avatar:
+          "https://github.com/killshotxd/WorldChat/blob/main/src/assets/meetme.png?raw=true",
+        createdAt: new Date(),
+        uid: "ChatBot",
+      });
+      await setDoc(doc(collection(db, "privateRooms"), uniqueName), {
+        uniqueName,
+        createdBy: uid,
+        createdAt: new Date(),
+      });
+      toast("🔥 New private room is created !", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
-        closeOnClick: true,
+
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
         theme: "dark",
       });
+      navigate(`../privateRoom/private/${uniqueName}`, { replace: true });
       return;
     }
     try {
@@ -117,10 +144,14 @@ const RoomCreate = () => {
                     onSubmit={handleCreateRoom}
                   >
                     <div className="flex flex-col gap-2 items-center content-center">
+                      <p className="">
+                        For Unique Private Room just click on create without any
+                        input value!
+                      </p>
                       <input
                         className="py-2 pl-3 px-2 outline-fuchsia-300 border-fuchsia-500 border rounded-md"
                         type="text"
-                        placeholder="Room Name...."
+                        placeholder="Custom Room Name...."
                         value={roomName}
                         onChange={(e) => setRoomName(e.target.value)}
                       />
