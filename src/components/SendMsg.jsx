@@ -62,11 +62,11 @@ const SendMsg = () => {
     }
   };
   return (
-    <div className="bg-gray-200 pb-5 w-full py-5 shadow-lg">
+    <div className="bg-gray-200 sticky bottom-0 pb-5 w-full py-5 shadow-lg">
       <ToastContainer />
       <form onSubmit={handleSendMsg} className="px-2 containerWrap flex ">
         <input
-          className="input w-full focus:outline-none bg-gray-100 rounded-r-none"
+          className="input w-full  focus:outline-fuchsia-300 bg-gray-100 rounded-r-none"
           type="text"
           value={value}
           onChange={handleInputChange}
