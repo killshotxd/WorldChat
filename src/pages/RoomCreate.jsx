@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import { UserAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { collection, doc, addDoc, getDoc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  addDoc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  arrayUnion,
+} from "firebase/firestore";
 import { db } from "../Firebase";
 import meet from "../assets/meetme.png";
 import { ToastContainer, toast } from "react-toastify";
@@ -40,6 +48,7 @@ const RoomCreate = () => {
         uniqueName,
         createdBy: uid,
         createdAt: new Date(),
+        users: [uid],
       });
       toast("🔥 New private room is created !", {
         position: "top-right",
@@ -55,51 +64,56 @@ const RoomCreate = () => {
       return;
     }
     try {
+      // check if the room already exists and has less than two users
       const existingRoom = await getDoc(
         doc(collection(db, "privateRooms"), roomName)
       );
-      if (existingRoom.exists()) {
-        console.log("This room name is already taken!");
-        toast("😉 Room Already Exists", {
+      const joinedUsers = existingRoom?.data()?.users || [];
+      const { uid } = currentUser;
+
+      if (
+        existingRoom.exists() &&
+        joinedUsers.length < 2 &&
+        !joinedUsers.includes(uid)
+      ) {
+        // add the current user to the existing room
+        await updateDoc(doc(collection(db, "privateRooms"), roomName), {
+          users: arrayUnion(uid),
+        });
+
+        toast("🔥 You have joined the private room!", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
-
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
           theme: "dark",
         });
         navigate(`../privateRoom/private/${roomName}`, { replace: true });
-
-        // handle accordingly, maybe show an error message to the user
-        return;
+      } else if (joinedUsers.includes(uid)) {
+        toast("😉 You are already in the room", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        navigate(`../privateRoom/private/${roomName}`, { replace: true });
+      } else {
+        console.log("This room is full!");
+        toast("😉 This room is full!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       }
-      const { uid } = currentUser;
-      await addDoc(collection(db, "privateRooms", roomName, "messages"), {
-        text: `Welcome to ${roomName}!`,
-        name: "ChatBot",
-        avatar:
-          "https://github.com/killshotxd/WorldChat/blob/main/src/assets/meetme.png?raw=true",
-        createdAt: new Date(),
-        uid: "ChatBot",
-      });
-      await setDoc(doc(collection(db, "privateRooms"), roomName), {
-        roomName,
-        createdBy: uid,
-        createdAt: new Date(),
-      });
-      toast("🔥 New private room is created !", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-      navigate(`../privateRoom/private/${roomName}`, { replace: true });
     } catch (error) {
       console.log(error);
     }
